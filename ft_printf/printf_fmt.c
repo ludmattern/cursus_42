@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 10:12:36 by lmattern          #+#    #+#             */
-/*   Updated: 2023/11/21 10:37:36 by lmattern         ###   ########.fr       */
+/*   Updated: 2023/11/21 11:31:00 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ int	print_pointer(void *ptr)
 
 	if (!ptr)
 	{
-		if (ft_putstr_fd("(nil)", 1) < 0)
+		if (ft_putstr_fd("0x0", 1) < 0)
 			return (-1);
-		return (5);
+		return (3);
 	}
 	str = itoa_printf((unsigned long long)ptr, -16);
 	if (!str)
