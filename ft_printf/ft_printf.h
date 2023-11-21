@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 14:09:08 by lmattern          #+#    #+#             */
-/*   Updated: 2023/11/21 15:21:51 by lmattern         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:27:02 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*itoa_printf(unsigned long long num, int base);
 int		print_num(unsigned int num, char fmt);
 int		print_char(char c);
 int		print_string(char *str);
-int		print_pointer(void *ptr);
+int		print_pointer(void *ptr, char *str, int len);
 int		print_int(int nbr);
 size_t	ft_strlen(const char *s);
 int		ft_putstr_fd(char *s, int fd);
