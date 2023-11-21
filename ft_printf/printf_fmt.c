@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 10:12:36 by lmattern          #+#    #+#             */
-/*   Updated: 2023/11/21 15:54:06 by lmattern         ###   ########.fr       */
+/*   Updated: 2023/11/21 16:33:30 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,9 @@ int	print_string(char *str)
 	return (ft_strlen(str));
 }
 
-int	print_pointer(void *ptr)
+int	print_pointer(void *ptr, char *str, int len)
 {
-	char	*str;
 	char	*full_str;
-	int		len;
 
 	if (!ptr)
 	{
@@ -72,7 +70,10 @@ int	print_pointer(void *ptr)
 	len = ft_strlen(str) + 2;
 	full_str = malloc(len + 1);
 	if (!full_str)
+	{
+		free(str);
 		return (-1);
+	}
 	ft_strlcpy(full_str, "0x", 3);
 	ft_strlcat(full_str + 2, str, len + 1);
 	if (ft_putstr_fd(full_str, 1) < 0)
