@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 10:12:36 by lmattern          #+#    #+#             */
-/*   Updated: 2023/11/21 11:31:00 by lmattern         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:54:06 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ int	print_num(unsigned int num, char fmt)
 	if (fmt != 'u')
 	{
 		base = 16;
-		if (fmt == 'X')
-			base = 16;
-		else
+		if (fmt == 'x')
 			base = -16;
 	}
 	str = itoa_printf(num, base);
@@ -59,24 +57,28 @@ int	print_string(char *str)
 int	print_pointer(void *ptr)
 {
 	char	*str;
+	char	*full_str;
 	int		len;
 
 	if (!ptr)
 	{
-		if (ft_putstr_fd("0x0", 1) < 0)
+		if (ft_putstr_fd("(nil)", 1) < 0)
 			return (-1);
-		return (3);
+		return (5);
 	}
 	str = itoa_printf((unsigned long long)ptr, -16);
 	if (!str)
 		return (-1);
-	if (ft_putstr_fd("0x", 1) < 0 || ft_putstr_fd(str, 1) < 0)
-	{
-		free(str);
-		return (-1);
-	}
 	len = ft_strlen(str) + 2;
+	full_str = malloc(len + 1);
+	if (!full_str)
+		return (-1);
+	ft_strlcpy(full_str, "0x", 3);
+	ft_strlcat(full_str + 2, str, len + 1);
+	if (ft_putstr_fd(full_str, 1) < 0)
+		len = -1;
 	free(str);
+	free(full_str);
 	return (len);
 }
 

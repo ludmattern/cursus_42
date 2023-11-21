@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 14:09:08 by lmattern          #+#    #+#             */
-/*   Updated: 2023/11/16 20:39:38 by lmattern         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:21:51 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ int		ft_putchar_fd(char c, int fd);
 char	*ft_itoa(int n);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
+size_t	ft_strlcat(char *dst, const char *src, size_t size);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 #endif
