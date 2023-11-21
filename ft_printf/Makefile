@@ -6,7 +6,7 @@
 #    By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/06 16:14:01 by lmattern          #+#    #+#              #
-#    Updated: 2023/11/16 16:23:40 by lmattern         ###   ########.fr        #
+#    Updated: 2023/11/21 15:24:17 by lmattern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ FLAGS= 		-Wall -Werror -Wextra
 NAME= 		libftprintf.a
 
 SRCS= 		ft_strlen.c ft_itoa.c ft_calloc.c ft_putchar_fd.c ft_putstr_fd.c \
-			printf_fmt.c libftprintf.c itoa_printf.c ft_bzero.c
+			printf_fmt.c libftprintf.c itoa_printf.c ft_bzero.c ft_strlcpy.c \
+			ft_strlcat.c
 
 OBJS= 		$(SRCS:.c=.o)
 
