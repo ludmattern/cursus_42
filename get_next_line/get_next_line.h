@@ -23,9 +23,9 @@
 
 typedef struct	s_list
 {
-	char			*content;
+	char		*content;
 	struct s_list	*next;
-}				t_list;
+}			t_list;
 
 char	*get_next_line(int fd);
 int 	is_newline(t_list *buffer);
