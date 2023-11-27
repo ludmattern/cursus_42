@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 10:03:09 by lmattern          #+#    #+#             */
-/*   Updated: 2023/11/22 14:02:58 by lmattern         ###   ########.fr       */
+/*   Created: 2023/11/27 15:43:10 by lmattern          #+#    #+#             */
+/*   Updated: 2023/11/27 20:43:13 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,11 @@
 #  define BUFFER_SIZE 5
 # endif
 
-typedef struct	s_list
-{
-	char		*content;
-	struct s_list	*next;
-}			t_list;
-
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlen(const char *s);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+char	*ft_strchr(const char *s, int c);
 char	*get_next_line(int fd);
-int 	is_newline(t_list *buffer);
-t_list	*ft_lstlast(t_list *buffer);
-void	store_next_line(int fd, t_list **buffer);
-void	buffer_join(t_list **buffer, char *temp, ssize_t read_state);
-void	extract_line(t_list *buffer, char **line);
-void	malloc_line(char **line, t_list *buffer);
-void	trim_prev_line(t_list **buffer);
-size_t 	ft_strlen(const char *str);
-void	free_buffer(t_list *buffer);
 
 #endif
