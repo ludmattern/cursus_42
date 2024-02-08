@@ -6,7 +6,7 @@
 #    By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/14 13:49:19 by lmattern          #+#    #+#              #
-#    Updated: 2023/12/15 17:39:37 by lmattern         ###   ########.fr        #
+#    Updated: 2024/01/06 11:02:08 by lmattern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,11 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra
 LIBFT = libft/libft.a
 
-# Add your Push_swap source files here
 SRCS =		./src/main.c ./src/check_args.c ./src/push_n_swap.c \
 			./src/r_n_rotate.c ./src/sorts.c ./src/secret_actions.c
 
 OBJS = $(SRCS:.c=.o)
 
-# Header files location
 INCLUDES =	-I ./inc
 INCLUDE =	./inc/push_swap.h
 
