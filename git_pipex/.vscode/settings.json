@@ -1,0 +1,16 @@
+{
+    "42header.email": "lmattern@student.42.fr",
+    "42header.username": "lmattern",
+    "files.associations": {
+        "libft.h": "c",
+        "types.h": "c",
+        "stdio.h": "c",
+        "fcntl.h": "c",
+        "unistd.h": "c",
+        "ft_printf.h": "c",
+        "stdlib.h": "c",
+        "signal.h": "c",
+        "get_next_line.h": "c",
+        "pipex.h": "c"
+    }
+}
