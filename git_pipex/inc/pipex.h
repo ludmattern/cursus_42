@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 09:26:11 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/12 18:28:30 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:27:04 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_cmds
 	char			*full_path;
 	char			**cmd_n_args;
 	bool			exec;
+	int				input_fd;
+	int				output_fd;
 	struct s_cmds	*next;
 }	t_cmds;
 
@@ -39,6 +41,7 @@ typedef struct s_data
 	char	*file_in_name;
 	char	*file_out_name;
 	int		file_in;
+	bool	exec_first;
 	int		file_out;
 	char	*path;
 	t_cmds	*cmds;
@@ -61,5 +64,14 @@ void	get_env_path(char **envp, t_data *data);
 void	check_and_parse_cmd(int argc, char **argv, char **envp, t_data *data);
 void	free_array(char ***array);
 void	execute_commands(t_data *data, char **envp);
+
+/*
+handling files
+*/
+void	open_input_file(char *file_name, t_data *data);
+void	open_output_file(char *file_name, t_data *data);
+void	close_fds(int *fds);
+
+int		create_pipe(int pipefd[2]);
 
 #endif

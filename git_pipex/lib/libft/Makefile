@@ -6,7 +6,7 @@
 #    By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/06 16:14:01 by lmattern          #+#    #+#              #
-#    Updated: 2024/01/02 13:44:24 by lmattern         ###   ########.fr        #
+#    Updated: 2024/02/14 14:10:12 by lmattern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRCS= 		./src/ft_isalpha.c ./src/ft_isdigit.c ./src/ft_isalnum.c \
 			./src/ft_memchr.c ./src/ft_memcmp.c ./src/ft_calloc.c \
 			./src/ft_toupper.c ./src/ft_tolower.c ./src/ft_atoi.c \
 			./src/ft_putchar_fd.c ./src/ft_putstr_fd.c ./src/ft_putendl_fd.c \
-			./src/ft_putnbr_fd.c ./src/ft_lstnew_bonus.c \
+			./src/ft_putnbr_fd.c ./src/ft_lstnew_bonus.c ./src/ft_strndup.c\
 			./src/ft_lstadd_front_bonus.c ./src/ft_lstsize_bonus.c \
 			./src/ft_lstlast_bonus.c ./src/ft_lstadd_back_bonus.c \
 			./src/ft_lstdelone_bonus.c ./src/ft_lstclear_bonus.c \
