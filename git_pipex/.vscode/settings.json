@@ -11,6 +11,7 @@
         "stdlib.h": "c",
         "signal.h": "c",
         "get_next_line.h": "c",
-        "pipex.h": "c"
+        "pipex.h": "c",
+        "test": "c"
     }
 }

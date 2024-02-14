@@ -6,7 +6,7 @@
 #    By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/06 16:14:01 by lmattern          #+#    #+#              #
-#    Updated: 2024/02/07 19:48:51 by lmattern         ###   ########.fr        #
+#    Updated: 2024/02/14 14:58:15 by lmattern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBS			:=	-L$(LIBFTPRINTF) -lftprintf -L$(LIBFT) -lft
 PATHLIBS		:=	./lib/libftprintf.a ./lib/libft.a
 DEPS			:=	./inc/pipex.h
 SRCDIR			:=	./src
-SRCS			:=	$(SRCDIR)/main.c $(SRCDIR)/secondary.c
+SRCS			:=	$(SRCDIR)/main.c $(SRCDIR)/secondary.c $(SRCDIR)/handle_files.c $(SRCDIR)/handle_cmds.c
 OBJDIR			:=	./obj
 OBJS			:=	$(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 

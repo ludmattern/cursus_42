@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/12 18:58:38 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:00:04 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,53 +77,57 @@ char	*get_cmd(char *path, char *cmd)
 	return (NULL);
 }
 
-int	count_args(const char *cmd_str)
+bool toggle_quotes_status(bool in_quotes, char current_char)
 {
-	int			args_count;
-	bool		in_quotes;
-	const char	*p;
-
-	args_count = 0;
-	in_quotes = false;
-	p = cmd_str;
-	while (*p == ' ')
-		p++;
-	while (*p)
+    if (current_char == '\'')
 	{
-		if (*p == '\'')
-		{
-			in_quotes = !in_quotes;
-			p++;
-			continue ;
-		}
-		if (*p == ' ' && !in_quotes)
-		{
-			args_count++;
-			while (*p == ' ')
-				p++;
-			continue ;
-		}
-		p++;
-	}
-	if (p != cmd_str && *(p - 1) != ' ')
-		args_count++;
-	return (args_count);
+        return (!in_quotes);
+    }
+    return (in_quotes);
 }
 
-char	*ft_strndup(const char *s, size_t n)
+void counting_args(const char *p, int *args_count)
 {
-	char	*dup;
-	size_t	len;
+    bool in_quotes;
+    bool is_arg;
 
-	len = ft_strlen(s);
-	if (n < len)
-		len = n;
-	dup = (char *)malloc((len + 1) * sizeof(char));
-	if (!dup)
-		return (NULL);
-	ft_strlcpy(dup, s, len + 1);
-	return (dup);
+    in_quotes = false;
+    is_arg = false;
+    while (*p)
+	{
+        in_quotes = toggle_quotes_status(in_quotes, *p);
+        if (!in_quotes && *p == ' ')
+		{
+            if (is_arg)
+			{
+                (*args_count)++;
+                is_arg = false;
+            }
+            while (*p == ' ')
+				p++;
+            continue ;
+        }
+        is_arg = true;
+        p++;
+    }
+    if (is_arg)
+        (*args_count)++;
 }
+
+int count_args(const char *cmd_str)
+{
+    int args_count = 0;
+    const char *p = cmd_str;
+
+    args_count = 0;
+    p = cmd_str;
+    while (*p == ' ')
+		p++;
+    counting_args(p, &args_count);
+
+    return (args_count);
+}
+
 
 char	**parse_cmd(const char *cmd_str)
 {
@@ -150,9 +154,7 @@ char	**parse_cmd(const char *cmd_str)
 		{
 			in_quotes = !in_quotes;
 			if (in_quotes)
-			{
 				arg_start = p + 1;
-			}
 			else
 			{
 				length = p - arg_start;
@@ -170,9 +172,7 @@ char	**parse_cmd(const char *cmd_str)
 			}
 		}
 		else if (!in_quotes && *p != ' ' && !arg_start)
-		{
 			arg_start = p;
-		}
 		p++;
 	}
 	args[arg_index] = NULL;
@@ -239,6 +239,9 @@ void	append_command(t_cmds **head, t_cmds *new_cmd)
 	}
 }
 
+/*
+DEBUT ONLY
+*/
 void	print_commands(const t_cmds *cmds)
 {
 	const t_cmds	*current_cmd;
