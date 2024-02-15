@@ -6,21 +6,11 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/14 18:00:04 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/15 17:34:43 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
-
-void	free_array(char ***array)
-{
-	int	i;
-
-	i = 0;
-	while ((*array)[i] != NULL)
-		free((*array)[i++]);
-	free(*array);
-}
 
 void	check_and_parse_cmd(int argc, char **argv, char **envp, t_data *data)
 {
@@ -33,26 +23,7 @@ void	check_and_parse_cmd(int argc, char **argv, char **envp, t_data *data)
 		add_command(data, argv[i++]);
 }
 
-void	get_env_path(char **envp, t_data *data)
-{
-	int	i;
-
-	i = 0;
-	data->path = NULL;
-	while (envp[i] != NULL)
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			data->path = envp[i] + 5;
-			return ;
-		}
-		i++;
-	}
-	fprintf(stderr, "Path not found\n");
-	exit(EXIT_FAILURE);
-}
-
-char	*get_cmd(char *path, char *cmd)
+char	*get_cmd(char *path, char *cmd, t_data *data, char **cmd_n_args)
 {
 	char	**paths;
 	char	*cmd_path;
@@ -61,122 +32,22 @@ char	*get_cmd(char *path, char *cmd)
 
 	paths = ft_split(path, ':');
 	if (!paths)
-		return (NULL);
-	i = 1;
-	while (paths[i] != NULL)
+		handle_cmd_err(cmd_n_args, data, NULL, NULL);
+	i = 0;
+	while (paths[++i] != NULL)
 	{
 		cmd_path = ft_strjoin(paths[i], "/");
+		if (!cmd_path)
+			handle_cmd_err(cmd_n_args, data, paths, NULL);
 		full_cmd_path = ft_strjoin(cmd_path, cmd);
 		free(cmd_path);
+		if (!full_cmd_path)
+			handle_cmd_err(cmd_n_args, data, paths, NULL);
 		if (access(full_cmd_path, X_OK) == 0)
 			return (free_array(&paths), full_cmd_path);
 		free(full_cmd_path);
-		i++;
 	}
-	free_array(&paths);
-	return (NULL);
-}
-
-bool toggle_quotes_status(bool in_quotes, char current_char)
-{
-    if (current_char == '\'')
-	{
-        return (!in_quotes);
-    }
-    return (in_quotes);
-}
-
-void counting_args(const char *p, int *args_count)
-{
-    bool in_quotes;
-    bool is_arg;
-
-    in_quotes = false;
-    is_arg = false;
-    while (*p)
-	{
-        in_quotes = toggle_quotes_status(in_quotes, *p);
-        if (!in_quotes && *p == ' ')
-		{
-            if (is_arg)
-			{
-                (*args_count)++;
-                is_arg = false;
-            }
-            while (*p == ' ')
-				p++;
-            continue ;
-        }
-        is_arg = true;
-        p++;
-    }
-    if (is_arg)
-        (*args_count)++;
-}
-
-int count_args(const char *cmd_str)
-{
-    int args_count = 0;
-    const char *p = cmd_str;
-
-    args_count = 0;
-    p = cmd_str;
-    while (*p == ' ')
-		p++;
-    counting_args(p, &args_count);
-
-    return (args_count);
-}
-
-
-char	**parse_cmd(const char *cmd_str)
-{
-	char		**args;
-	int			arg_index;
-	bool		in_quotes;
-	const char	*arg_start;
-	const char	*p;
-	int			length;
-
-	arg_index = 0;
-	in_quotes = false;
-	arg_start = NULL;
-	p = cmd_str;
-	args = malloc((count_args(cmd_str) + 1) * sizeof(char *));
-	if (!args)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-	while (*p)
-	{
-		if (*p == '\'')
-		{
-			in_quotes = !in_quotes;
-			if (in_quotes)
-				arg_start = p + 1;
-			else
-			{
-				length = p - arg_start;
-				args[arg_index++] = ft_strndup(arg_start, length);
-				arg_start = NULL;
-			}
-		}
-		else if (!in_quotes && (*p == ' ' || *(p + 1) == '\0'))
-		{
-			if (arg_start)
-			{
-				length = p - arg_start + (*(p + 1) == '\0');
-				args[arg_index++] = ft_strndup(arg_start, length);
-				arg_start = NULL;
-			}
-		}
-		else if (!in_quotes && *p != ' ' && !arg_start)
-			arg_start = p;
-		p++;
-	}
-	args[arg_index] = NULL;
-	return (args);
+	return (free_array(&paths), NULL);
 }
 
 void	add_command(t_data *data, char *cmd_str)
@@ -187,39 +58,38 @@ void	add_command(t_data *data, char *cmd_str)
 	t_cmds	*new_cmd;
 
 	cmd_n_args = parse_cmd(cmd_str);
-	full_cmd_path = get_cmd(data->path, cmd_n_args[0]);
+	if (cmd_n_args == NULL)
+		handle_cmd_err(NULL, data, NULL, NULL);
+	full_cmd_path = get_cmd(data->path, cmd_n_args[0], data, cmd_n_args);
 	if (full_cmd_path)
 		should_exec = 1;
 	else
 		should_exec = 0;
-	new_cmd = create_new_command(cmd_str, full_cmd_path, cmd_n_args, should_exec);
+	new_cmd = new_c(cmd_str, full_cmd_path, cmd_n_args, should_exec);
+	if (!new_cmd)
+		handle_cmd_err(cmd_n_args, data, NULL, full_cmd_path);
 	append_command(&(data->cmds), new_cmd);
 }
 
-t_cmds	*create_new_command(char *cmd_str, char *full_cmd_path, char **cmd_n_args, bool should_exec)
+t_cmds	*new_c(char *c_str, char *full_cmd_path, char **cmd_n_args, bool exec)
 {
 	t_cmds	*new_cmd;
 	char	*first_space;
 
+	new_cmd = NULL;
 	new_cmd = malloc(sizeof(t_cmds));
 	if (!new_cmd)
-	{
-		perror("Failed to allocate memory for new command");
-		exit(EXIT_FAILURE);
-	}
-	first_space = ft_strchr(cmd_str, ' ');
+		return (perror("malloc"), NULL);
+	first_space = ft_strchr(c_str, ' ');
 	if (first_space == NULL)
-		new_cmd->cmd = ft_strdup(cmd_str);
+		new_cmd->cmd = ft_strdup(c_str);
 	else
-		new_cmd->cmd = ft_strndup(cmd_str, first_space - cmd_str);
+		new_cmd->cmd = ft_strndup(c_str, first_space - c_str);
 	if (!new_cmd->cmd)
-	{
-		perror("Failed to allocate memory for command name");
-		exit(EXIT_FAILURE);
-	}
+		return (free(new_cmd), perror("malloc"), NULL);
 	new_cmd->full_path = full_cmd_path;
 	new_cmd->cmd_n_args = cmd_n_args;
-	new_cmd->exec = should_exec;
+	new_cmd->exec = exec;
 	new_cmd->next = NULL;
 	return (new_cmd);
 }
@@ -237,44 +107,4 @@ void	append_command(t_cmds **head, t_cmds *new_cmd)
 			last_cmd = last_cmd->next;
 		last_cmd->next = new_cmd;
 	}
-}
-
-/*
-DEBUT ONLY
-*/
-void	print_commands(const t_cmds *cmds)
-{
-	const t_cmds	*current_cmd;
-	int				cmd_index;
-	char			**arg;
-
-	current_cmd = cmds;
-	cmd_index = 1;
-	while (current_cmd != NULL)
-	{
-		printf("Command #%d:\n", cmd_index++);
-		printf("  Command: %s\n", current_cmd->cmd);
-		printf("  should exec: %i\n", current_cmd->exec);
-		if (current_cmd->full_path)
-			printf("  Full Path: %s\n", current_cmd->full_path);
-		else
-			printf("  Full Path: Command not found or path not set\n");
-		if (current_cmd->cmd_n_args)
-		{
-			printf("  Arguments: ");
-			arg = current_cmd->cmd_n_args;
-			while (*arg != NULL)
-			{
-				printf("%s, ", *arg);
-				arg++;
-			}
-			printf("\n");
-		}
-		else
-			printf("  Arguments: None\n");
-		current_cmd = current_cmd->next;
-		printf("\n");
-	}
-	if (cmd_index == 1)
-		printf("No commands to display.\n");
 }

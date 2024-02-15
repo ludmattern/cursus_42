@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:46:41 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/14 17:28:21 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:09:34 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ void	execute_command(t_cmds *cmd, char **envp)
 	}
 }
 
-void	display_cmd_error(t_data *data, t_cmds *cmd)
-{
-	ft_putstr_fd(data->program_name, 2);
-	ft_putstr_fd(": command not found: ", 2);
-	ft_putstr_fd(cmd->cmd, 2);
-	ft_putchar_fd('\n', 2);
-}
-
 void	handle_pipes(t_cmds *cmd, int pipefd[2])
 {
 	if (cmd->next != NULL)
@@ -62,6 +54,7 @@ void	execute_or_display_error(t_cmds *cmd, char **envp, t_data *data)
 		execute_command(cmd, envp);
 	else if (data->exec_first == true)
 		display_cmd_error(data, cmd);
+	data->exec_first = true;
 }
 
 void	wait_for_children(void)
