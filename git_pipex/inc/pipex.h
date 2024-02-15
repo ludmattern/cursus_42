@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 09:26:11 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/14 17:27:04 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:09:32 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,45 @@ typedef struct s_data
 	t_cmds	*cmds;
 }	t_data;
 
+typedef struct s_parser
+{
+	char		**args;
+	const char	*arg_start;
+	int			arg_index;
+	bool		in_quotes;
+}	t_parser;
+
+/*
+checking
+*/
 void	init_n_check_arguments(int argc, char **argv, t_data *data);
-void	open_input_file(char *file_name, t_data *data);
-void	open_output_file(char *file_name, t_data *data);
-void	create_and_execute_child_processes(char *cmd1, char *cmd2, t_data *data);
+
+/*
+handling commands
+*/
+void	check_and_get_cmd(char *cmd1, char *cmd2, char **envp, t_data *data);
+char	*get_cmd(char *path, char *cmd, t_data *data, char **cmd_n_args);
+void	execute_commands(t_data *data, char **envp);
 void	execute_first_command(char *cmd, int file_in, int pipefd[]);
 void	execute_second_command(char *cmd, int file_out, int pipefd[]);
-void	close_pipe_ends(int pipefd[2]);
-void	check_and_get_cmd(char *cmd1, char *cmd2, char **envp, t_data *data);
-void	print_commands(const t_cmds *cmds);
-void	append_command(t_cmds **head, t_cmds *new_cmd);
-t_cmds	*create_new_command(char *cmd_str, char *full_cmd_path, char **cmd_n_args, bool should_exec);
-void	add_command(t_data *data, char *cmd_str);
-char	*get_cmd(char *path, char *cmd);
-void	get_env_path(char **envp, t_data *data);
+
+/*
+parsing
+*/
 void	check_and_parse_cmd(int argc, char **argv, char **envp, t_data *data);
+char	**parse_cmd(const char *cmd_str);
+int		count_args(const char *cmd_str);
+void	add_command(t_data *data, char *cmd_str);
+void	append_command(t_cmds **head, t_cmds *new_cmd);
+t_cmds	*new_c(char *c_str, char *c_path, char **c_n_args, bool exec);
+
+/*
+utils
+*/
+void	display_cmd_error(t_data *data, t_cmds *cmd);
+void	get_env_path(char **envp, t_data *data);
+void	free_cmds(t_cmds *cmds);
 void	free_array(char ***array);
-void	execute_commands(t_data *data, char **envp);
 
 /*
 handling files
@@ -72,6 +94,21 @@ void	open_input_file(char *file_name, t_data *data);
 void	open_output_file(char *file_name, t_data *data);
 void	close_fds(int *fds);
 
+/*
+handling errors
+*/
+void	handle_cmd_err(char **cmd_args, t_data *data, char **paths, char *str);
+
+/*
+handling process
+*/
 int		create_pipe(int pipefd[2]);
+void	create_and_exec_child_procs(char *cmd1, char *cmd2, t_data *data);
+void	close_pipe_ends(int pipefd[2]);
+
+/*
+debug
+*/
+void	print_commands(const t_cmds *cmds);
 
 #endif

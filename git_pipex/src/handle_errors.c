@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   handle_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 14:06:28 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/15 17:11:30 by lmattern         ###   ########.fr       */
+/*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
+/*   Updated: 2024/02/15 17:22:42 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/libft.h"
+#include "../inc/pipex.h"
 
-char	*ft_strndup(const char *s, size_t n)
+void	handle_cmd_err(char **cmd_n_args, t_data *data, char **paths, char *str)
 {
-	char	*dup;
-	size_t	len;
-
-	len = ft_strlen(s);
-	if (n < len)
-		len = n;
-	dup = NULL;
-	dup = (char *)malloc((len + 1) * sizeof(char));
-	if (!dup)
-		return (NULL);
-	ft_strlcpy(dup, s, len + 1);
-	return (dup);
+	perror("malloc");
+	if (cmd_n_args)
+		free_array(&cmd_n_args);
+	if (data->cmds)
+		free_cmds(data->cmds);
+	if (paths)
+		free_array(&paths);
+	if (str)
+		free(str);
+	exit (EXIT_FAILURE);
 }

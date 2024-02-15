@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/14 17:32:24 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:08:23 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	open_output_file(char *file_name, t_data *data)
 		write(2, ": ", 2);
 		ft_putstr_fd(data->file_out_name, 2);
 		write(2, "\n", 1);
+		free_cmds(data->cmds);
+		exit(EXIT_FAILURE);
 	}
 }
 
