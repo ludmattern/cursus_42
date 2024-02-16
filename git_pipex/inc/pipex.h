@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 09:26:11 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/16 14:41:09 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/16 20:49:39 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,8 @@ void	init_n_check_arguments(int argc, char **argv, t_data *data);
 /*
 handling commands
 */
-void	check_and_get_cmd(char *cmd1, char *cmd2, char **envp, t_data *data);
 char	*get_cmd(char *path, char *cmd, t_data *data, char **cmd_n_args);
-void	execute_commands(t_data *data, char **envp);
-void	execute_first_command(char *cmd, int file_in, int pipefd[]);
-void	execute_second_command(char *cmd, int file_out, int pipefd[]);
+int		execute_commands(t_data *data, char **envp);
 
 /*
 parsing
@@ -91,9 +88,8 @@ void	free_array(char ***array);
 /*
 handling files
 */
-void	open_input_file(char *file_name, t_data *data);
-void	open_output_file(char *file_name, t_data *data);
-void	close_fds(int *fds);
+bool	open_input_file(char *file_name, t_data *data);
+void	open_output_file(char *file_name, t_data *data, bool infile_status);
 
 /*
 handling errors
@@ -107,14 +103,12 @@ void	display_slash_error(t_data *data, t_cmds *cmd);
 handling process
 */
 int		create_pipe(int pipefd[2]);
-void	create_and_exec_child_procs(char *cmd1, char *cmd2, t_data *data);
-void	close_pipe_ends(int pipefd[2]);
 void	handle_pipes(t_cmds *cmd, int pipefd[2]);
 void	wait_for_children(void);
 
 /*
 debug
-*/
-void	print_commands(const t_cmds *cmds);
 
+void	print_commands(const t_cmds *cmds);
+*/
 #endif

@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 11:11:55 by lmattern          #+#    #+#             */
-/*   Updated: 2024/01/15 17:01:33 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:47:42 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ Fills and checks the width of the map.
 */
 bool	check_map_width(t_map **map, int nb_tokens)
 {
-	if (nb_tokens > 500)
+	if (nb_tokens > 5000)
 		return (false);
 	(*map)->width = nb_tokens;
 	return (true);
@@ -80,7 +80,7 @@ t_map	*map_new(int height)
 	t_map	*new_map;
 	int		i;
 
-	if (height > 500)
+	if (height > 5000)
 		return (NULL);
 	new_map = malloc(sizeof(t_map));
 	if (!new_map)

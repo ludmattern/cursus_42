@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/16 14:36:17 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/16 20:40:12 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,20 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
+	bool	status_fd;
+	int		status;
 
 	init_n_check_arguments(argc, argv, &data);
 	check_and_parse_cmd(argc, argv, envp, &data);
-	//print_commands(data.cmds);
-	open_input_file(data.file_in_name, &data);
-	open_output_file(data.file_out_name, &data);
-	execute_commands(&data, envp);
+	status_fd = open_input_file(data.file_in_name, &data);
+	open_output_file(data.file_out_name, &data, status_fd);
+	status = execute_commands(&data, envp);
+	if (status_fd)
+		close(data.file_in);
+	close(data.file_out);
 	free_cmds(data.cmds);
+	if (status == -1)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
