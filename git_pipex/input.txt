@@ -1,0 +1,9 @@
+inc
+infile
+input.txt
+lib
+Makefile
+obj
+outfile
+pipex
+src

@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/15 17:28:29 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:26:30 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	add_argument_if_needed(t_parser *parser, const char *p)
 	return (0);
 }
 
-char	**parse_cmd(const char *cmd_str)
+char	**parse_cmd(const char *cmd_str, t_data *data)
 {
 	t_parser	parser;
 	const char	*p;
@@ -87,5 +87,7 @@ char	**parse_cmd(const char *cmd_str)
 		p++;
 	}
 	parser.args[parser.arg_index] = NULL;
+	if (parser.args == NULL)
+		handle_cmd_err(NULL, data, NULL, NULL);
 	return (parser.args);
 }
