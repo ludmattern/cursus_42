@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 09:26:11 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/15 19:09:32 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:41:09 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_cmds
 	char			*cmd;
 	char			*full_path;
 	char			**cmd_n_args;
-	bool			exec;
+	int				exec;
 	int				input_fd;
 	int				output_fd;
 	struct s_cmds	*next;
@@ -41,7 +41,7 @@ typedef struct s_data
 	char	*file_in_name;
 	char	*file_out_name;
 	int		file_in;
-	bool	exec_first;
+	int		exec_first;
 	int		file_out;
 	char	*path;
 	t_cmds	*cmds;
@@ -73,16 +73,17 @@ void	execute_second_command(char *cmd, int file_out, int pipefd[]);
 parsing
 */
 void	check_and_parse_cmd(int argc, char **argv, char **envp, t_data *data);
-char	**parse_cmd(const char *cmd_str);
+char	**parse_cmd(const char *cmd_str, t_data *data);
 int		count_args(const char *cmd_str);
 void	add_command(t_data *data, char *cmd_str);
 void	append_command(t_cmds **head, t_cmds *new_cmd);
-t_cmds	*new_c(char *c_str, char *c_path, char **c_n_args, bool exec);
+t_cmds	*new_c(char *c_str, char *c_path, char **c_n_args, int exec);
+int		initial_check(int *should_exec, char *cmd_str, char **full_cmd_path);
+char	*check_pathed_cmd(char *cmd, t_data *data, char **cmd_n_args);
 
 /*
 utils
 */
-void	display_cmd_error(t_data *data, t_cmds *cmd);
 void	get_env_path(char **envp, t_data *data);
 void	free_cmds(t_cmds *cmds);
 void	free_array(char ***array);
@@ -98,6 +99,9 @@ void	close_fds(int *fds);
 handling errors
 */
 void	handle_cmd_err(char **cmd_args, t_data *data, char **paths, char *str);
+void	display_cmd_error(t_data *data, t_cmds *cmd);
+void	display_file_error(t_data *data, t_cmds *cmd);
+void	display_slash_error(t_data *data, t_cmds *cmd);
 
 /*
 handling process
@@ -105,6 +109,8 @@ handling process
 int		create_pipe(int pipefd[2]);
 void	create_and_exec_child_procs(char *cmd1, char *cmd2, t_data *data);
 void	close_pipe_ends(int pipefd[2]);
+void	handle_pipes(t_cmds *cmd, int pipefd[2]);
+void	wait_for_children(void);
 
 /*
 debug

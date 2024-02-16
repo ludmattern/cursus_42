@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:46:41 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/15 19:09:34 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:36:17 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,39 +34,20 @@ void	execute_command(t_cmds *cmd, char **envp)
 	}
 }
 
-void	handle_pipes(t_cmds *cmd, int pipefd[2])
-{
-	if (cmd->next != NULL)
-	{
-		if (pipe(pipefd) != 0)
-			exit(EXIT_FAILURE);
-	}
-	else
-	{
-		pipefd[0] = -1;
-		pipefd[1] = -1;
-	}
-}
-
 void	execute_or_display_error(t_cmds *cmd, char **envp, t_data *data)
 {
 	if (cmd->exec == 1)
 		execute_command(cmd, envp);
 	else if (data->exec_first == true)
-		display_cmd_error(data, cmd);
-	data->exec_first = true;
-}
-
-void	wait_for_children(void)
-{
-	pid_t	pid;
-
-	while (true)
 	{
-		pid = wait(NULL);
-		if (pid <= 0)
-			break ;
+		if (cmd->exec == 2)
+			display_file_error(data, cmd);
+		else if (cmd->exec == 3)
+			display_slash_error(data, cmd);
+		else
+			display_cmd_error(data, cmd);
 	}
+	data->exec_first = true;
 }
 
 void	execute_commands(t_data *data, char **envp)

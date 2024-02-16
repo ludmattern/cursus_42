@@ -6,31 +6,11 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/15 19:09:35 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:36:17 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
-
-void	free_cmds(t_cmds *cmds)
-{
-	int	i;
-
-	i = 0;
-	if (cmds)
-	{
-		free(cmds->cmd);
-		free(cmds->full_path);
-		if (cmds->cmd_n_args)
-		{
-			while (cmds->cmd_n_args[i] != NULL)
-				free(cmds->cmd_n_args[i++]);
-			free(cmds->cmd_n_args);
-		}
-		free_cmds(cmds->next);
-		free(cmds);
-	}
-}
 
 int	main(int argc, char **argv, char **envp)
 {

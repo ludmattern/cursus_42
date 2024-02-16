@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   secondary.c                                        :+:      :+:    :+:   */
+/*   parse_cmd_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/15 17:34:43 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:38:18 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,7 @@ char	*get_cmd(char *path, char *cmd, t_data *data, char **cmd_n_args)
 	return (free_array(&paths), NULL);
 }
 
-void	add_command(t_data *data, char *cmd_str)
-{
-	char	**cmd_n_args;
-	char	*full_cmd_path;
-	bool	should_exec;
-	t_cmds	*new_cmd;
-
-	cmd_n_args = parse_cmd(cmd_str);
-	if (cmd_n_args == NULL)
-		handle_cmd_err(NULL, data, NULL, NULL);
-	full_cmd_path = get_cmd(data->path, cmd_n_args[0], data, cmd_n_args);
-	if (full_cmd_path)
-		should_exec = 1;
-	else
-		should_exec = 0;
-	new_cmd = new_c(cmd_str, full_cmd_path, cmd_n_args, should_exec);
-	if (!new_cmd)
-		handle_cmd_err(cmd_n_args, data, NULL, full_cmd_path);
-	append_command(&(data->cmds), new_cmd);
-}
-
-t_cmds	*new_c(char *c_str, char *full_cmd_path, char **cmd_n_args, bool exec)
+t_cmds	*new_c(char *c_str, char *full_cmd_path, char **cmd_n_args, int exec)
 {
 	t_cmds	*new_cmd;
 	char	*first_space;
@@ -94,17 +73,30 @@ t_cmds	*new_c(char *c_str, char *full_cmd_path, char **cmd_n_args, bool exec)
 	return (new_cmd);
 }
 
-void	append_command(t_cmds **head, t_cmds *new_cmd)
+void	add_command(t_data *data, char *cmd_str)
 {
-	t_cmds	*last_cmd;
+	char	**cmd_n_args;
+	char	*full_cmd_path;
+	int		should_exec;
+	t_cmds	*new_cmd;
+	int		check;
 
-	if (*head == NULL)
-		*head = new_cmd;
-	else
+	cmd_n_args = parse_cmd(cmd_str, data);
+	check = initial_check(&should_exec, cmd_str, &full_cmd_path);
+	if (check != -1 && !cmd_n_args[0])
+		full_cmd_path = NULL;
+	else if (check != -1 && ft_strchr(cmd_n_args[0], '/'))
 	{
-		last_cmd = *head;
-		while (last_cmd->next != NULL)
-			last_cmd = last_cmd->next;
-		last_cmd->next = new_cmd;
+		full_cmd_path = check_pathed_cmd(cmd_n_args[0], data, cmd_n_args);
+		if (!full_cmd_path)
+			should_exec = 2;
 	}
+	else if (check != -1)
+		full_cmd_path = get_cmd(data->path, cmd_n_args[0], data, cmd_n_args);
+	if (full_cmd_path && !should_exec)
+		should_exec = 1;
+	new_cmd = new_c(cmd_str, full_cmd_path, cmd_n_args, should_exec);
+	if (!new_cmd)
+		handle_cmd_err(cmd_n_args, data, NULL, full_cmd_path);
+	append_command(&(data->cmds), new_cmd);
 }

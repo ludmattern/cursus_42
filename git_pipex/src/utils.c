@@ -6,19 +6,11 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:05:20 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/15 19:09:36 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:33:24 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
-
-void	display_cmd_error(t_data *data, t_cmds *cmd)
-{
-	ft_putstr_fd(data->program_name, 2);
-	ft_putstr_fd(": command not found: ", 2);
-	ft_putstr_fd(cmd->cmd, 2);
-	ft_putchar_fd('\n', 2);
-}
 
 void	get_env_path(char **envp, t_data *data)
 {
@@ -38,6 +30,26 @@ void	get_env_path(char **envp, t_data *data)
 	exit(EXIT_FAILURE);
 }
 
+void	free_cmds(t_cmds *cmds)
+{
+	int	i;
+
+	i = 0;
+	if (cmds)
+	{
+		free(cmds->cmd);
+		free(cmds->full_path);
+		if (cmds->cmd_n_args)
+		{
+			while (cmds->cmd_n_args[i] != NULL)
+				free(cmds->cmd_n_args[i++]);
+			free(cmds->cmd_n_args);
+		}
+		free_cmds(cmds->next);
+		free(cmds);
+	}
+}
+
 void	free_array(char ***array)
 {
 	int	i;
@@ -47,10 +59,7 @@ void	free_array(char ***array)
 		free((*array)[i++]);
 	free(*array);
 }
-
-
-//DEBUG ONLY
-
+/*
 void	print_commands(const t_cmds *cmds)
 {
 	const t_cmds	*current_cmd;
@@ -87,3 +96,4 @@ void	print_commands(const t_cmds *cmds)
 	if (cmd_index == 1)
 		printf("No commands to display.\n");
 }
+*/
