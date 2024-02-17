@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 09:26:11 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/17 18:23:38 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 22:24:04 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ handling commands
 */
 char	*get_cmd(char *path, char *cmd, t_data *data, char **cmd_n_args);
 int		execute_commands(t_data *data, char **envp);
+int		execute_command(t_cmds *cmd, char **envp, t_data *data, int pipefd[2]);
 
 /*
 parsing
@@ -107,12 +108,7 @@ void	display_outfile_error(t_data *data);
 handling process
 */
 int		create_pipe(int pipefd[2]);
-int		handle_pipes(t_cmds *cmd, int pipefd[2], int *error_status);
+int		hdl_pipes(t_cmds **cmd, int pipefd[2], int *error_status, t_data *data);
 int		wait_for_children(int *last_exit_status);
-
-/*
-debug
-*/
-void	print_commands(const t_cmds *cmds);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/17 17:56:31 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 20:09:28 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ t_cmds	*new_c(char *c_str, char *full_cmd_path, char **cmd_n_args, int exec)
 	new_cmd->cmd_n_args = cmd_n_args;
 	new_cmd->exec = exec;
 	new_cmd->last = false;
+	new_cmd->input_fd = -1;
+	new_cmd->output_fd = -1;
 	new_cmd->pass = false;
 	new_cmd->outfile_error = NULL;
 	new_cmd->next = NULL;
