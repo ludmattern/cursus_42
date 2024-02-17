@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:05:20 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/16 15:47:33 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 18:26:51 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,41 +59,3 @@ void	free_array(char ***array)
 		free((*array)[i++]);
 	free(*array);
 }
-/*
-void	print_commands(const t_cmds *cmds)
-{
-	const t_cmds	*current_cmd;
-	int				cmd_index;
-	char			**arg;
-
-	current_cmd = cmds;
-	cmd_index = 1;
-	while (current_cmd)
-	{
-		printf("Command #%d:\n", cmd_index++);
-		printf("  Command: %s\n", current_cmd->cmd);
-		printf("  should exec: %i\n", current_cmd->exec);
-		if (current_cmd->full_path)
-			printf("  Full Path: %s\n", current_cmd->full_path);
-		else
-			printf("  Full Path: Command not found or path not set\n");
-		if (current_cmd->cmd_n_args)
-		{
-			printf("  Arguments: ");
-			arg = current_cmd->cmd_n_args;
-			while (*arg)
-			{
-				printf("%s, ", *arg);
-				arg++;
-			}
-			printf("\n");
-		}
-		else
-			printf("  Arguments: None\n");
-		current_cmd = current_cmd->next;
-		printf("\n");
-	}
-	if (cmd_index == 1)
-		printf("No commands to display.\n");
-}
-*/

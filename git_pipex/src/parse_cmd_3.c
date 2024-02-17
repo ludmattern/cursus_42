@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/16 14:40:53 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:58:44 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,8 @@ int	initial_check(int *should_exec, char *cmd_str, char **full_cmd_path)
 
 	i = 0;
 	*should_exec = 0;
-	if (cmd_str && cmd_str[i] == '/')
-	{
-		while (cmd_str[i])
-			i++;
-		if (cmd_str[i] == '\0')
-		{
-			*should_exec = 3;
-			*full_cmd_path = NULL;
-			return (-1);
-		}
-	}
+	(void)cmd_str;
+	(void)full_cmd_path;
 	return (0);
 }
 

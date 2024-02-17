@@ -6,11 +6,22 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/16 14:33:07 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:05:37 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
+
+void	display_outfile_error(t_data *data)
+{
+	ft_putstr_fd(data->program_name, 2);
+	write(2, ": ", 2);
+	ft_putchar_fd(ft_tolower((strerror(errno))[0]), 2);
+	ft_putstr_fd(strerror(errno) + 1, 2);
+	write(2, ": ", 2);
+	ft_putstr_fd(data->file_out_name, 2);
+	write(2, "\n", 1);
+}
 
 void	display_cmd_error(t_data *data, t_cmds *cmd)
 {

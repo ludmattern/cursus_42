@@ -6,19 +6,20 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:34:50 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/16 20:49:05 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 18:27:00 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-void	handle_pipes(t_cmds *cmd, int pipefd[2])
+int	handle_pipes(t_cmds *cmd, int pipefd[2], int *error_status)
 {
 	if (cmd->next != NULL)
 	{
 		if (pipe(pipefd) != 0)
 		{
-			exit(EXIT_FAILURE);
+			*error_status = -1;
+			return (-1);
 		}
 	}
 	else
@@ -26,4 +27,5 @@ void	handle_pipes(t_cmds *cmd, int pipefd[2])
 		pipefd[0] = -1;
 		pipefd[1] = -1;
 	}
+	return (0);
 }

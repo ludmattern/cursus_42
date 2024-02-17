@@ -6,22 +6,28 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:46:41 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/16 20:47:32 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 18:26:28 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-void	wait_for_children(void)
+int	wait_for_children(int *last_exit_status)
 {
 	pid_t	pid;
+	int		status;
 
 	while (true)
 	{
-		pid = wait(NULL);
+		pid = wait(&status);
 		if (pid <= 0)
 			break ;
+		if (WIFEXITED(status))
+		{
+			*last_exit_status = WEXITSTATUS(status);
+		}
 	}
+	return (*last_exit_status);
 }
 
 int	execute_command(t_cmds *cmd, char **envp)
@@ -55,7 +61,9 @@ int	execute_command(t_cmds *cmd, char **envp)
 
 int	execute_or_display_error(t_cmds *cmd, char **envp, t_data *data)
 {
-	if (cmd->exec == 1)
+	if (cmd->pass == 1)
+		display_outfile_error(data);
+	else if (cmd->exec == 1)
 		return (execute_command(cmd, envp));
 	else if (data->exec_first == true)
 	{
@@ -86,7 +94,8 @@ int	execute_commands(t_data *data, char **envp)
 	init_params(&error_status, &cmd, data);
 	while (cmd != NULL && error_status == 0)
 	{
-		handle_pipes(cmd, pipefd);
+		if (handle_pipes(cmd, pipefd, &error_status) == -1)
+			break ;
 		if (cmd->next == NULL)
 			cmd->output_fd = data->file_out;
 		else
@@ -102,6 +111,5 @@ int	execute_commands(t_data *data, char **envp)
 		pipefd[0] = -1;
 		pipefd[1] = -1;
 	}
-	wait_for_children();
-	return (error_status);
+	return (wait_for_children(&error_status));
 }

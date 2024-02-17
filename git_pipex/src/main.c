@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/16 20:40:12 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 18:26:15 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,28 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	bool	status_fd;
-	int		status;
+	bool	status_fdi;
+	bool	status_fdo;
+	int		status_exec;
 
 	init_n_check_arguments(argc, argv, &data);
 	check_and_parse_cmd(argc, argv, envp, &data);
-	status_fd = open_input_file(data.file_in_name, &data);
-	open_output_file(data.file_out_name, &data, status_fd);
-	status = execute_commands(&data, envp);
-	if (status_fd)
+	status_fdi = open_input_file(data.file_in_name, &data);
+	status_fdo = open_output_file(data.file_out_name, &data);
+	status_exec = execute_commands(&data, envp);
+	if (status_fdi)
 		close(data.file_in);
-	close(data.file_out);
+	if (status_fdo)
+		close(data.file_out);
 	free_cmds(data.cmds);
-	if (status == -1)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (status_exec);
 }
 
 void	init_n_check_arguments(int argc, char **argv, t_data *data)
 {
 	char	*base_name;
 
-	if (argc < 4)
+	if (argc < 5)
 	{
 		ft_putstr_fd("Usage: ./pipex file_in cmd1 [cmd2 ...] [file_out]\n", 2);
 		exit(EXIT_FAILURE);
