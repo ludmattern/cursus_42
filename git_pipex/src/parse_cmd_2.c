@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/16 14:38:18 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 17:56:31 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 void	check_and_parse_cmd(int argc, char **argv, char **envp, t_data *data)
 {
-	int	i;
+	struct s_cmds	*current;
+	int				i;
 
 	get_env_path(envp, data);
 	data->cmds = NULL;
 	i = 2;
 	while (i < argc - 1)
 		add_command(data, argv[i++]);
+	current = data->cmds;
+	while (current->next)
+		current = current->next;
+	current->last = true;
 }
 
 char	*get_cmd(char *path, char *cmd, t_data *data, char **cmd_n_args)
@@ -69,6 +74,9 @@ t_cmds	*new_c(char *c_str, char *full_cmd_path, char **cmd_n_args, int exec)
 	new_cmd->full_path = full_cmd_path;
 	new_cmd->cmd_n_args = cmd_n_args;
 	new_cmd->exec = exec;
+	new_cmd->last = false;
+	new_cmd->pass = false;
+	new_cmd->outfile_error = NULL;
 	new_cmd->next = NULL;
 	return (new_cmd);
 }

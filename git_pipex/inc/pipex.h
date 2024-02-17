@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 09:26:11 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/16 20:49:39 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 18:23:38 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ typedef struct s_cmds
 	int				exec;
 	int				input_fd;
 	int				output_fd;
+	bool			last;
+	bool			pass;
+	char			*outfile_error;
 	struct s_cmds	*next;
 }	t_cmds;
 
@@ -89,7 +92,7 @@ void	free_array(char ***array);
 handling files
 */
 bool	open_input_file(char *file_name, t_data *data);
-void	open_output_file(char *file_name, t_data *data, bool infile_status);
+bool	open_output_file(char *file_name, t_data *data);
 
 /*
 handling errors
@@ -98,17 +101,18 @@ void	handle_cmd_err(char **cmd_args, t_data *data, char **paths, char *str);
 void	display_cmd_error(t_data *data, t_cmds *cmd);
 void	display_file_error(t_data *data, t_cmds *cmd);
 void	display_slash_error(t_data *data, t_cmds *cmd);
+void	display_outfile_error(t_data *data);
 
 /*
 handling process
 */
 int		create_pipe(int pipefd[2]);
-void	handle_pipes(t_cmds *cmd, int pipefd[2]);
-void	wait_for_children(void);
+int		handle_pipes(t_cmds *cmd, int pipefd[2], int *error_status);
+int		wait_for_children(int *last_exit_status);
 
 /*
 debug
-
-void	print_commands(const t_cmds *cmds);
 */
+void	print_commands(const t_cmds *cmds);
+
 #endif
