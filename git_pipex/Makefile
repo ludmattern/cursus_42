@@ -6,7 +6,7 @@
 #    By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/06 16:14:01 by lmattern          #+#    #+#              #
-#    Updated: 2024/02/16 14:38:40 by lmattern         ###   ########.fr        #
+#    Updated: 2024/02/17 22:23:10 by lmattern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCDIR			:=	./src
 SRCS			:=	$(SRCDIR)/main.c \
 					$(SRCDIR)/handle_files.c \
 					$(SRCDIR)/handle_cmds.c \
+					$(SRCDIR)/handle_cmds2.c \
 					$(SRCDIR)/handle_errors.c \
 					$(SRCDIR)/utils.c \
 					$(SRCDIR)/parse_cmd.c \

@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/17 18:26:15 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/17 20:40:52 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	main(int argc, char **argv, char **envp)
 	status_fdi = open_input_file(data.file_in_name, &data);
 	status_fdo = open_output_file(data.file_out_name, &data);
 	status_exec = execute_commands(&data, envp);
-	if (status_fdi)
+	if (data.file_in != -1 && status_fdi)
 		close(data.file_in);
-	if (status_fdo)
+	if (data.file_out != -1 && status_fdo)
 		close(data.file_out);
 	free_cmds(data.cmds);
 	return (status_exec);
@@ -38,7 +38,7 @@ void	init_n_check_arguments(int argc, char **argv, t_data *data)
 
 	if (argc < 5)
 	{
-		ft_putstr_fd("Usage: ./pipex file_in cmd1 [cmd2 ...] [file_out]\n", 2);
+		ft_putstr_fd("Usage: ./pipex file_in cmd1 cmd2 ... [file_out]\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	ft_memset(data, 0, sizeof(*data));
