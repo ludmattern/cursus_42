@@ -6,13 +6,13 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/17 20:09:33 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/18 15:45:58 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-void	display_outfile_error(t_data *data)
+int	display_outfile_error(t_data *data)
 {
 	ft_putstr_fd(data->program_name, 2);
 	write(2, ": ", 2);
@@ -21,30 +21,34 @@ void	display_outfile_error(t_data *data)
 	write(2, ": ", 2);
 	ft_putstr_fd(data->file_out_name, 2);
 	write(2, "\n", 1);
+	return (-1);
 }
 
-void	display_cmd_error(t_data *data, t_cmds *cmd)
+int	display_cmd_error(t_data *data, t_cmds *cmd)
 {
 	ft_putstr_fd(data->program_name, 2);
 	ft_putstr_fd(": command not found: ", 2);
 	ft_putstr_fd(cmd->cmd, 2);
 	ft_putchar_fd('\n', 2);
+	return (-1);
 }
 
-void	display_file_error(t_data *data, t_cmds *cmd)
+int	display_file_error(t_data *data, t_cmds *cmd)
 {
 	ft_putstr_fd(data->program_name, 2);
 	ft_putstr_fd(": no such file or directory: ", 2);
 	ft_putstr_fd(cmd->cmd, 2);
 	ft_putchar_fd('\n', 2);
+	return (-1);
 }
 
-void	display_slash_error(t_data *data, t_cmds *cmd)
+int	display_slash_error(t_data *data, t_cmds *cmd)
 {
 	ft_putstr_fd(data->program_name, 2);
 	ft_putstr_fd(": permission denied: ", 2);
 	ft_putstr_fd(cmd->cmd, 2);
 	ft_putchar_fd('\n', 2);
+	return (-1);
 }
 
 void	handle_cmd_err(char **cmd_n_args, t_data *data, char **paths, char *str)

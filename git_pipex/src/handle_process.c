@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:34:50 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/17 21:39:59 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/18 15:54:49 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	wait_for_children(int *last_exit_status)
 			break ;
 		if (WIFEXITED(status))
 		{
-			*last_exit_status = WEXITSTATUS(status);
+			if (*last_exit_status != -1)
+				*last_exit_status = WEXITSTATUS(status);
 		}
 	}
 	return (*last_exit_status);
