@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/17 20:40:52 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/18 15:53:07 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int argc, char **argv, char **envp)
 	if (data.file_out != -1 && status_fdo)
 		close(data.file_out);
 	free_cmds(data.cmds);
+	if (status_exec != 0)
+		exit(127);
 	return (status_exec);
 }
 

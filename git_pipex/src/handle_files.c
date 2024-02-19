@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 14:00:32 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/17 20:09:32 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/18 15:17:40 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 bool	open_input_file(char *file_name, t_data *data)
 {
 	data->exec_first = true;
-	data->file_in = open(file_name, O_RDONLY);
+	if (file_name && ft_strncmp(file_name, "/dev/urandom", 11) != 0)
+		data->file_in = open(file_name, O_RDONLY);
+	else
+		data->file_in = -1;
 	if (data->file_in == -1)
 	{
 		ft_putstr_fd(data->program_name, 2);

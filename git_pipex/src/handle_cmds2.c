@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 14:46:41 by lmattern          #+#    #+#             */
-/*   Updated: 2024/02/17 22:25:19 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/02/18 15:48:24 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,24 @@
 
 int	exec_or_display_error(t_cmds *cmd, char **envp, t_data *data, int pipefd[2])
 {
+	int	error;
+
+	error = 0;
 	if (cmd->pass == 1)
-		display_outfile_error(data);
+		error = display_outfile_error(data);
 	else if (cmd->exec == 1)
-		return (execute_command(cmd, envp, data, pipefd));
+		error = execute_command(cmd, envp, data, pipefd);
 	else if (data->exec_first == true)
 	{
 		if (cmd->exec == 2)
-			display_file_error(data, cmd);
+			error = display_file_error(data, cmd);
 		else if (cmd->exec == 3)
-			display_slash_error(data, cmd);
+			error = display_slash_error(data, cmd);
 		else
-			display_cmd_error(data, cmd);
+			error = display_cmd_error(data, cmd);
 	}
 	data->exec_first = true;
-	return (0);
+	return (error);
 }
 
 void	init_params(int *error_status, t_cmds **cmd, t_data *data)
@@ -81,7 +84,7 @@ int	execute_commands(t_data *data, char **envp)
 	int		error_status;
 
 	init_params(&error_status, &cmd, data);
-	while (cmd != NULL && error_status == 0)
+	while (cmd != NULL)
 	{
 		if (hdl_pipes(&cmd, pipefd, &error_status, data) == -1)
 			break ;
