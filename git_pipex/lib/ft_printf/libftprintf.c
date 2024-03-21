@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 10:12:36 by lmattern          #+#    #+#             */
-/*   Updated: 2023/11/21 16:27:50 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/03/06 13:13:05 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ static int	process_format(const char **format, va_list *args)
 
 	(*format)++;
 	if (**format == 'c')
-		result = print_char((char)va_arg(*args, int));
+		result = print_char_printf((char)va_arg(*args, int));
 	else if (**format == 's')
-		result = print_string((char *)va_arg(*args, char *));
+		result = print_string_printf((char *)va_arg(*args, char *));
 	else if (**format == 'p')
-		result = print_pointer((void *)va_arg(*args, void *), "", 0);
+		result = print_pointer_printf((void *)va_arg(*args, void *), "", 0);
 	else if (**format == 'i' || **format == 'd')
-		result = print_int((int)va_arg(*args, int));
+		result = print_int_printf((int)va_arg(*args, int));
 	else if (**format == 'u' || **format == 'x' || **format == 'X')
-		result = print_num((unsigned int)va_arg(*args, unsigned int), **format);
+		result = print_num_printf((unsigned int)va_arg(*args, unsigned int), **format);
 	else if (**format == '%')
 		result = ft_putchar_fd('%', 1);
 	else

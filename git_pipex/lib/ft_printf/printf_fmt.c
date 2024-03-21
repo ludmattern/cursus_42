@@ -6,13 +6,13 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 10:12:36 by lmattern          #+#    #+#             */
-/*   Updated: 2023/11/21 16:33:30 by lmattern         ###   ########.fr       */
+/*   Updated: 2024/03/06 13:13:38 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	print_num(unsigned int num, char fmt)
+int	print_num_printf(unsigned int num, char fmt)
 {
 	char	*str;
 	int		len;
@@ -38,14 +38,14 @@ int	print_num(unsigned int num, char fmt)
 	return (len);
 }
 
-int	print_char(char c)
+int	print_char_printf(char c)
 {
 	if (ft_putchar_fd(c, 1) < 0)
 		return (-1);
 	return (1);
 }
 
-int	print_string(char *str)
+int	print_string_printf(char *str)
 {
 	if (!str)
 		str = "(null)";
@@ -54,7 +54,7 @@ int	print_string(char *str)
 	return (ft_strlen(str));
 }
 
-int	print_pointer(void *ptr, char *str, int len)
+int	print_pointer_printf(void *ptr, char *str, int len)
 {
 	char	*full_str;
 
@@ -83,7 +83,7 @@ int	print_pointer(void *ptr, char *str, int len)
 	return (len);
 }
 
-int	print_int(int nbr)
+int	print_int_printf(int nbr)
 {
 	char	*str;
 	int		len;
