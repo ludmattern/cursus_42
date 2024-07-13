@@ -10,6 +10,11 @@ until mysqladmin ping >/dev/null 2>&1; do
     sleep 2
 done
 
+# Remplacer les variables d'environnement dans le fichier SQL
+sed -i "s/MYSQL_DATABASE/$MYSQL_DATABASE/g" /init-db.sql
+sed -i "s/MYSQL_USER/$MYSQL_USER/g" /init-db.sql
+sed -i "s/MYSQL_PASSWORD/$MYSQL_PASSWORD/g" /init-db.sql
+
 # Exécuter le script SQL d'initialisation
 mysql -u root < /init-db.sql
 

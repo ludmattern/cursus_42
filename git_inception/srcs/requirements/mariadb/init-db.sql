@@ -1,18 +1,8 @@
-CREATE DATABASE IF NOT EXISTS wordpress;
-USE wordpress;
+CREATE DATABASE IF NOT EXISTS MYSQL_DATABASE;
+USE MYSQL_DATABASE;
 
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    password VARCHAR(50) NOT NULL,
-    email VARCHAR(100)
-);
+CREATE USER IF NOT EXISTS 'MYSQL_USER'@'%' IDENTIFIED BY 'MYSQL_PASSWORD';
 
-# Créer un utilisateur pour WordPress
-CREATE USER IF NOT EXISTS 'wp_user'@'%' IDENTIFIED BY 'wp_password';
+GRANT ALL PRIVILEGES ON MYSQL_DATABASE.* TO 'MYSQL_USER'@'%';
 
-# Accorder tous les privilèges à lutilisateur WordPress
-GRANT ALL PRIVILEGES ON wordpress.* TO 'wp_user'@'%';
-
-# Appliquer les modifications de privilèges
 FLUSH PRIVILEGES;

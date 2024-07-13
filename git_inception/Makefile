@@ -1,5 +1,17 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: lmattern <lmattern@student.42lyon.fr>      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/07/13 16:31:02 by lmattern          #+#    #+#              #
+#    Updated: 2024/07/13 21:57:08 by lmattern         ###   ########lyon.fr    #
+#                                                                              #
+# **************************************************************************** #
+
 # Nom du projet
-PROJECT_NAME = my-nginx
+PROJECT_NAME = inception
 
 # Définir les cibles
 .PHONY: all build up down clean re
@@ -7,21 +19,24 @@ PROJECT_NAME = my-nginx
 # Par défaut, construire et démarrer les conteneurs
 all: up
 
-# Construire les images Docker
+# Construire les images
 build:
-	docker-compose -f srcs/docker-compose.yml build
+	sudo docker-compose -f srcs/docker-compose.yml build
 
 # Démarrer les conteneurs
 up: build
-	docker-compose -f srcs/docker-compose.yml up -d
+	sudo docker-compose -f srcs/docker-compose.yml up -d
 
-# Arrêter et supprimer les conteneurs, images, volumes, et réseaux
+# Arrêter les conteneurs
 down:
-	docker-compose -f srcs/docker-compose.yml down --rmi all --volumes --remove-orphans
+	sudo docker-compose -f srcs/docker-compose.yml down
 
-# Nettoyer les conteneurs et les images
+# Nettoyer les conteneurs, les images, les réseaux et les volumes
 clean: down
-	docker system prune -af --volumes
+	sudo docker system prune -af --volumes
+	sudo docker volume rm $$(docker volume ls -qf dangling=true)
+	sudo rm -rf /home/lmattern/data/wordpress/*
+	sudo rm -rf /home/lmattern/data/mariadb/*
 
 # Reconstruire et redémarrer les conteneurs
 re: clean up
