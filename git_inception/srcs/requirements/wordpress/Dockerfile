@@ -10,13 +10,13 @@ RUN apt-get update && apt-get -y install \
     && rm -rf /var/lib/apt/lists/*
 
 # Copier le fichier de configuration de PHP-FPM
-COPY www.conf /etc/php/7.4/fpm/pool.d/www.conf
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 # Créer le répertoire pour permettre le démarrage de PHP
 RUN mkdir /run/php
 
 # Copier le script, donner les droits d'exécution
-COPY create_wordpress.sh /usr/local/bin/
+COPY ./tools/create_wordpress.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/create_wordpress.sh
 
 ENTRYPOINT ["/usr/local/bin/create_wordpress.sh"]

@@ -23,7 +23,8 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
         -subj "/C=FR/ST=Lyon/L=Lyon/O=42 School/OU=lmattern/CN=lmattern"
 
 # Copier le fichier de configuration Nginx
-COPY nginx.conf /etc/nginx/conf.d
+COPY ./conf/nginx.conf /etc/nginx/conf.d
+COPY ./tools/fastcgi_params /etc/nginx/
 
 # Exposer le port 443
 EXPOSE 443
