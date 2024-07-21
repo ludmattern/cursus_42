@@ -1,0 +1,14 @@
+# Ignore all build directories
+build/
+
+# Ignore all .vscode directories
+.vscode/
+
+# Ignore object and deps files for all exercises
+*.o
+*.d
+
+# Ignore executables for all exercises
+scalarconverter
+serialization
+realtype
