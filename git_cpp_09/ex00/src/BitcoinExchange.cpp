@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:45:23 by lmattern          #+#    #+#             */
-/*   Updated: 2024/07/28 20:43:59 by lmattern         ###   ########lyon.fr   */
+/*   Updated: 2024/08/15 13:48:39 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,9 +203,9 @@ bool BitcoinExchange::isValidDate(const std::string &date) const
     }
 
     year = strtol(yearStr.c_str(), &end, 10);
-    if (*end != '\0' || year < 2009 || year > 2024)
+    if (*end != '\0' || year < 2009)
     {
-        std::cout << "Error: Bitcoin data is available only between 2009 and 2024" << std::endl;
+        std::cout << "Error: Bitcoin data is available only after 2009" << std::endl;
         return false;
     }
 

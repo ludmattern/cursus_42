@@ -5,33 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 09:57:48 by lmattern          #+#    #+#             */
-/*   Updated: 2024/08/14 19:17:25 by lmattern         ###   ########.fr       */
+/*   Created: 2024/05/31 19:48:53 by lmattern          #+#    #+#             */
+/*   Updated: 2024/06/06 11:26:20 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ostream>
-#include <iostream>
-#include "PmergeMe.hpp"
+#include "Fixed.hpp"
 
-int main(int argc, char** argv)
+int main(void)
 {
-    if (argc < 2)
-    {
-        std::cerr << "Error: No input provided" << std::endl;
-        return 1;
-    }
+    Fixed a;
+    Fixed b(a);
+    Fixed c;
 
-    try
-    {
-        PmergeMe    pmerge(argc, argv);
-        pmerge.sortAndMeasure();
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Error: " << e.what() << std::endl;
-        return 1;
-    }
-
-    return 0;
+    c = b;
+    std::cout << a.getRawBits() << std::endl;
+    std::cout << b.getRawBits() << std::endl;
+    std::cout << c.getRawBits() << std::endl;
+    return (0);
 }

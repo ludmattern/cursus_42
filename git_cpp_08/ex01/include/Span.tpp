@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Span.tpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 09:57:48 by lmattern          #+#    #+#             */
-/*   Updated: 2024/08/14 17:28:53 by lmattern         ###   ########.fr       */
+/*   Created: 2024/07/17 09:37:28 by lmattern          #+#    #+#             */
+/*   Updated: 2024/07/22 10:09:22 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "BitcoinExchange.hpp"
-#include <iostream>
+#ifndef SPAN_TPP
+#define SPAN_TPP
 
-int main(int argc, char **argv)
-{
-    if (argc != 2)
-    {
-        std::cout << "Usage: " << argv[0] << " <input_file>" << std::endl;
-        return 1;
+#include "Span.hpp"
+
+template <typename Iterator>
+void Span::addNumbers(Iterator begin, Iterator end) {
+    if (std::distance(begin, end) + _numbers.size() > _maxSize) {
+        throw std::length_error("Span is full");
     }
-
-    BitcoinExchange btcExchange;
-    if (!btcExchange.loadDatabase("data.csv")) return 1;
-    if (!btcExchange.loadInput(argv[1])) return 1;
-
-    btcExchange.evaluate();
-
-    return 0;
+    _numbers.insert(_numbers.end(), begin, end);
 }
+
+#endif

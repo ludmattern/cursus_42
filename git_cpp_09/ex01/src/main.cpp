@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 09:57:48 by lmattern          #+#    #+#             */
-/*   Updated: 2024/07/28 20:44:24 by lmattern         ###   ########lyon.fr   */
+/*   Updated: 2024/08/14 10:46:12 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 {
     if (argc != 2)
     {
-        std::cerr << "Error" << std::endl;
+        std::cerr << "Error: Invalid input" << std::endl;
         return 1;
     }
 

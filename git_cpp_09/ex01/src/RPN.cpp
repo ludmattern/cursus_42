@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:45:23 by lmattern          #+#    #+#             */
-/*   Updated: 2024/07/28 20:45:00 by lmattern         ###   ########lyon.fr   */
+/*   Updated: 2024/08/14 18:14:29 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ bool RPN::isValidNumber(const std::string& token) const
     if (token.length() == 1 && isdigit(token[0]))
         return true;
 
-    if (token.length() == 2 && token[0] == '-' && isdigit(token[1])
-                            && token[1] >= '1' && token[1] <= '9')
+    if (token.length() == 2 && token[0] == '-' && token[1] >= '1' && token[1] <= '9')
         return true;
 
     return false;
@@ -92,6 +91,6 @@ int RPN::evaluate(const std::string& expression) const
     }
 
     if (stack.size() != 1) throw std::runtime_error("Invalid expression");
-
+	
     return stack.top();
 }

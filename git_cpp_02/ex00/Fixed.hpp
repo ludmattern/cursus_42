@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Fixed.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 09:57:48 by lmattern          #+#    #+#             */
-/*   Updated: 2024/08/14 17:28:53 by lmattern         ###   ########.fr       */
+/*   Created: 2024/05/31 19:44:16 by lmattern          #+#    #+#             */
+/*   Updated: 2024/06/06 11:57:07 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "BitcoinExchange.hpp"
-#include <iostream>
+#ifndef FIXED_HPP
+# define FIXED_HPP
 
-int main(int argc, char **argv)
+# include <iostream>
+
+class Fixed
 {
-    if (argc != 2)
-    {
-        std::cout << "Usage: " << argv[0] << " <input_file>" << std::endl;
-        return 1;
-    }
+    public:
+        Fixed();
+        Fixed(const Fixed &other);
+        Fixed &operator=(const Fixed &other);
+        ~Fixed();
 
-    BitcoinExchange btcExchange;
-    if (!btcExchange.loadDatabase("data.csv")) return 1;
-    if (!btcExchange.loadInput(argv[1])) return 1;
+        int     getRawBits(void) const;
+        void    setRawBits(int const raw);
 
-    btcExchange.evaluate();
+    private:
+        int _fixedPointValue;
+        static const int _fractionalBits = 8;
+};
 
-    return 0;
-}
+#endif

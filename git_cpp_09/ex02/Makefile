@@ -6,7 +6,7 @@
 #    By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 13:17:58 by lmattern          #+#    #+#              #
-#    Updated: 2024/07/27 17:41:04 by lmattern         ###   ########lyon.fr    #
+#    Updated: 2024/08/14 18:19:56 by lmattern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC_FILES = main PmergeMe
 SRCS = $(addprefix $(SRCS_DIR)/,$(addsuffix .cpp,$(SRC_FILES)))
 OBJS = $(patsubst $(SRCS_DIR)/%.cpp,$(OBJS_DIR)/%.o,$(SRCS))
 DEPS = $(OBJS:.o=.d)
-NAME = pmergeme
+NAME = PmergeMe
 
 all: $(NAME)
 

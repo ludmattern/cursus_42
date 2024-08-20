@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Point.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 09:57:48 by lmattern          #+#    #+#             */
-/*   Updated: 2024/08/14 17:28:53 by lmattern         ###   ########.fr       */
+/*   Created: 2024/06/01 18:12:35 by lmattern          #+#    #+#             */
+/*   Updated: 2024/06/06 13:09:42 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "BitcoinExchange.hpp"
-#include <iostream>
+#include "Point.hpp"
 
-int main(int argc, char **argv)
+Point::Point() : x(0), y(0)
+{}
+
+Point::Point(const float x, const float y) : x(x), y(y)
+{}
+
+Point::Point(const Point &other) : x(other.x), y(other.y)
+{}
+
+Point &Point::operator=(const Point &other)
 {
-    if (argc != 2)
-    {
-        std::cout << "Usage: " << argv[0] << " <input_file>" << std::endl;
-        return 1;
-    }
+    (void)other;
+    return *this;
+}
 
-    BitcoinExchange btcExchange;
-    if (!btcExchange.loadDatabase("data.csv")) return 1;
-    if (!btcExchange.loadInput(argv[1])) return 1;
+Point::~Point() {}
 
-    btcExchange.evaluate();
+Fixed Point::getX() const 
+{
+    return x;
+}
 
-    return 0;
+Fixed Point::getY() const
+{
+    return y;
 }

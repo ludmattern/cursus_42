@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   easyfind.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 09:57:48 by lmattern          #+#    #+#             */
-/*   Updated: 2024/08/14 17:28:53 by lmattern         ###   ########.fr       */
+/*   Created: 2024/07/17 09:37:28 by lmattern          #+#    #+#             */
+/*   Updated: 2024/07/22 14:14:15 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "BitcoinExchange.hpp"
-#include <iostream>
+#ifndef EASYFIND_HPP
+#define EASYFIND_HPP
 
-int main(int argc, char **argv)
-{
-    if (argc != 2)
-    {
-        std::cout << "Usage: " << argv[0] << " <input_file>" << std::endl;
-        return 1;
-    }
+#include <algorithm>
+#include <iterator>
+#include <stdexcept>
 
-    BitcoinExchange btcExchange;
-    if (!btcExchange.loadDatabase("data.csv")) return 1;
-    if (!btcExchange.loadInput(argv[1])) return 1;
+template <typename T>
+typename T::iterator easyfind(T& container, int value);
 
-    btcExchange.evaluate();
+#include "easyfind.tpp"
 
-    return 0;
-}
+#endif

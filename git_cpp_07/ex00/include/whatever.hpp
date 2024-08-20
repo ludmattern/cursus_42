@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   whatever.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 09:57:48 by lmattern          #+#    #+#             */
-/*   Updated: 2024/08/14 17:28:53 by lmattern         ###   ########.fr       */
+/*   Created: 2024/07/17 09:37:28 by lmattern          #+#    #+#             */
+/*   Updated: 2024/07/21 17:19:12 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "BitcoinExchange.hpp"
-#include <iostream>
+#ifndef WHATEVER_HPP
+#define WHATEVER_HPP
 
-int main(int argc, char **argv)
-{
-    if (argc != 2)
-    {
-        std::cout << "Usage: " << argv[0] << " <input_file>" << std::endl;
-        return 1;
-    }
-
-    BitcoinExchange btcExchange;
-    if (!btcExchange.loadDatabase("data.csv")) return 1;
-    if (!btcExchange.loadInput(argv[1])) return 1;
-
-    btcExchange.evaluate();
-
-    return 0;
+template <typename T>
+void swap(T& a, T& b) {
+    T temp = a;
+    a = b;
+    b = temp;
 }
+
+template <typename T>
+T min(const T& a, const T& b) {
+    return (a < b) ? a : b;
+}
+
+template <typename T>
+T max(const T& a, const T& b) {
+    return (a > b) ? a : b;
+}
+
+#endif

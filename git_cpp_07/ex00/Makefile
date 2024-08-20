@@ -6,7 +6,7 @@
 #    By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 13:17:58 by lmattern          #+#    #+#              #
-#    Updated: 2024/08/14 17:57:03 by lmattern         ###   ########.fr        #
+#    Updated: 2024/07/21 17:19:32 by lmattern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,11 @@ SRCS_DIR = src
 INCLUDE_DIR = include
 OBJS_DIR = build
 
-SRC_FILES = main RPN
+SRC_FILES = main
 SRCS = $(addprefix $(SRCS_DIR)/,$(addsuffix .cpp,$(SRC_FILES)))
 OBJS = $(patsubst $(SRCS_DIR)/%.cpp,$(OBJS_DIR)/%.o,$(SRCS))
 DEPS = $(OBJS:.o=.d)
-NAME = RPN
+NAME = swapminmax
 
 all: $(NAME)
 

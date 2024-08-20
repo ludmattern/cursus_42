@@ -5,44 +5,31 @@
 #                                                     +:+ +:+         +:+      #
 #    By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/06/03 13:17:58 by lmattern          #+#    #+#              #
-#    Updated: 2024/08/14 17:57:03 by lmattern         ###   ########.fr        #
+#    Created: 2024/05/31 19:49:30 by lmattern          #+#    #+#              #
+#    Updated: 2024/06/01 18:22:46 by lmattern         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all clean fclean re
 
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -MMD -MP
+NAME = bsp
 
-SRCS_DIR = src
-INCLUDE_DIR = include
-OBJS_DIR = build
+SRCS = main.cpp Fixed.cpp Point.cpp bsp.cpp
 
-SRC_FILES = main RPN
-SRCS = $(addprefix $(SRCS_DIR)/,$(addsuffix .cpp,$(SRC_FILES)))
-OBJS = $(patsubst $(SRCS_DIR)/%.cpp,$(OBJS_DIR)/%.o,$(SRCS))
-DEPS = $(OBJS:.o=.d)
-NAME = RPN
+OBJS = $(SRCS:.cpp=.o)
+
+CXX = g++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) -I $(INCLUDE_DIR) -o $@ $^
-
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp | $(OBJS_DIR)
-	$(CXX) $(CXXFLAGS) -I $(INCLUDE_DIR) -c $< -o $@
-
-$(OBJS_DIR):
-	mkdir -p $(OBJS_DIR)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
 clean:
-	rm -f $(OBJS) $(DEPS)
-	rm -rf $(OBJS_DIR)
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
--include $(DEPS)

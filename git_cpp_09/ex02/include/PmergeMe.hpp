@@ -6,7 +6,7 @@
 /*   By: lmattern <lmattern@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 09:37:28 by lmattern          #+#    #+#             */
-/*   Updated: 2024/07/28 20:51:44 by lmattern         ###   ########lyon.fr   */
+/*   Updated: 2024/08/14 17:56:19 by lmattern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,19 @@
 
 class PmergeMe
 {
+private:
+    std::vector<int> parseArgumentsToVector(int argc, char** argv);
+    std::list<int> parseArgumentsToList(int argc, char** argv);
+    double measureSortTimeVector(std::vector<int>& vec);
+    double measureSortTimeList(std::list<int>& lst);
+    void printVector(const std::vector<int>& vec);
+    void fordJohnsonSortVector(std::vector<int>& vec);
+    void fordJohnsonSortList(std::list<int>& lst);
+    std::vector<int> _inputv;
+    std::list<int> _inputl;
+    double _vectorCopyTime;
+    double _listCopyTime;
+
 public:
     PmergeMe();
     PmergeMe(int argc, char** argv);
@@ -28,12 +41,6 @@ public:
     ~PmergeMe();
     void sortAndMeasure();
 
-private:
-    std::vector<int> parseArguments(int argc, char** argv);
-    template <typename Container> double measureSortTime(Container& container);
-    template <typename Container> void printContainer(const Container& container);
-    template <typename Container> void mergeInsertSortImpl(Container& container);
-    std::vector<int> input;
 };
 
 #endif
